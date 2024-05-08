@@ -1,0 +1,20 @@
+# https://taskfile.dev/
+
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - docker build -t duo_php .
+  test:
+    deps: [build]
+    cmds:
+      - docker run --rm -it duo_php /src/vendor/bin/phpunit --process-isolation tests
+  shell:
+    cmds:
+      - docker run --rm -it duo_php bash
+  example:
+    dir: ./example
+    cmds:
+      - docker build -t duo_php_example .
+      - docker run -p 8080:8080 duo_php_example
